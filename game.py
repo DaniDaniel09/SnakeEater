@@ -5,6 +5,11 @@ from pygame.locals import *
 from player import Player
 from render import Render
 
+
+#TODO:  1) render to client
+#       2) handle_event - hangle msgs instead of pygame events
+
+
 class Game:
     update_time = 0.5
     frame_time = 0.1
@@ -20,6 +25,7 @@ class Game:
     def set_field_size(self, w, h):
         self.width = w
         self.heigth = h
+        self.render.set_window_size(10,10)
 
     def add_player(self, id):
         x = randint(0, self.width-1)
@@ -36,16 +42,15 @@ class Game:
             head = player.body[0]
                 
             if head in player.body[1::]:
-                self.leaderboard[i] = self.players[i].score
+                self.leaderboard[self.players[i].id] = self.players[i].score
                 del self.players[i]
                 print("Collided with self")
                 
-            if (head[0] < 0 or head[0] > self.width or
-                head[1] < 0 or head[1] > self.heigth):
+            if (head[0] < 0 or head[0] >= self.width or
+                head[1] < 0 or head[1] >= self.heigth):
                 self.leaderboard[self.players[i].id] = self.players[i].score
                 del self.players[i]
                 print("Collided with bounds:")
-                print(head)
                 
             if head in self.fruits:
                 self.players[i].eat_fruit()
@@ -94,7 +99,7 @@ class Game:
                 self.update()
                 self.check_collisions()
                 
-                if len(self.players) == 0:
+                if len(self.players) == 0:  #game is over when ther's no players left
                     break
                 
                 self.render.draw(self.players, self.fruits)
