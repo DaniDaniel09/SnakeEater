@@ -28,7 +28,7 @@ class Render:
     def draw(self, players, fruits):
         self.display.fill((0,0,0))
         
-        for player in players:
+        for player in players.values():
             for point in player.body:
                 self.display.blit(self.snek_image, (point[0]*self.unit_size, point[1]*self.unit_size))
             

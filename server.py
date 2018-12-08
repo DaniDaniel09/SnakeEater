@@ -1,11 +1,18 @@
-# ima server now
-
 import socket
 import select
 import time
+import argparse
 
 from game import Game
 
+def arg_parse():
+    parser = argparse.ArgumentParser()
+   
+    parser.add_argument("--width", dest = 'width', help = "Field width", default = 20, type = int)
+    parser.add_argument("--height", dest = 'height', help = "Field height", default = 10, type = int)
+    parser.add_argument("--port", dest = 'port', help = "port", default = 9999, type = int)
+    
+    return parser.parse_args()
 
 def disconnect_player(epoll, connections, snek_game, socket_to_id, fileno):
     epoll.unregister(fileno)
@@ -19,14 +26,16 @@ def disconnect_player(epoll, connections, snek_game, socket_to_id, fileno):
 
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
+    args = arg_parse()
+    
     host = socket.gethostname()
-    port = 9999
+    port = args.port
 
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server_socket.bind((host, port))
     server_socket.listen(5)
 
-    width, height = 20, 10
+    width, height = args.width, args.height
 
     snek_game = Game()
     snek_game.set_field_size(width, height)

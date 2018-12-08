@@ -108,9 +108,3 @@ class Game:
                 return False
 
         return True
-
-
-if __name__ == "__main__":
-    game = Game()
-    game.set_field_size(10, 10)
-    game.run()
