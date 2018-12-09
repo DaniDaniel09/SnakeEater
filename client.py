@@ -1,10 +1,20 @@
 import socket
+import argparse
 
 import pygame
 from pygame.locals import *
 from player import Player
 from render import Render
 
+def arg_parse():
+    parser = argparse.ArgumentParser()
+   
+    parser.add_argument("--host", dest = 'host', help = "Host IP", default = 'localhost', type = str)
+    parser.add_argument("--port", dest = 'port', help = "port", default = 9999, type = int)
+    
+    parser.add_argument("--login", dest = 'login', help = "Player name", default = 'kappa', type = str)
+    
+    return parser.parse_args()
 
 def handle_input():
     global running
@@ -33,8 +43,10 @@ def handle_input():
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
     global running
-    host = socket.gethostname()
-    port = 9999
+    args = arg_parse()
+    
+    host = args.host
+    port = args.port
 
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server_socket.connect((host, port))

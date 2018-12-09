@@ -28,7 +28,7 @@ def disconnect_player(epoll, connections, snek_game, socket_to_id, fileno):
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
     args = arg_parse()
     
-    host = socket.gethostname()
+    host = '127.0.0.1'
     port = args.port
 
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)

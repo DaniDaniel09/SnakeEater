@@ -61,7 +61,6 @@ class Game:
                 self.add_fruit()
 
             for j, p in player_array:
-                print(j, i)
                 if j == i:
                     continue
 
