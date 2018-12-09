@@ -24,6 +24,9 @@ class Player:
 
     def grow_tail(self):
         self.body.append(self.body[-1])
+        
+    def cut_at(self, index):
+        self.body = self.body[:index]
 
     def move(self):
         if self.velocity == (0, 0):

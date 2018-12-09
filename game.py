@@ -60,19 +60,21 @@ class Game:
                 self.fruits.remove(head)
                 self.add_fruit()
 
-            for j, p in player_array:
+            for j, other in player_array:
                 if j == i:
                     continue
-
-                for index, segment in p.body:
-                    if head == segment and j < i:
-                        for k in range(len(p.body) - index):
+                
+                if head in other.body:
+                    index = other.body.index(head)
+                    
+                    if index == 0 and len(player.body)>=len(other.body):
+                        del self.players[other.id]
+                        for k in range(len(other.body)):
                             self.players[i].grow_tail()
-
-                        if index == 0:
-                            del self.players[p.id]
-                        else:
-                            self.players[p.id].body = self.players[p.id].body[:index]
+                    
+                    if index > 0:
+                        self.players[other.id].cut_at(index)
+                        self.players[i].grow_tail()
 
     def update(self):
         for i, player in self.players.items():
