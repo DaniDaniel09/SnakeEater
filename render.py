@@ -2,7 +2,7 @@ from pygame.locals import *
 import pygame
 
 class Render:
-    unit_size = 32
+    unit_size = 5
     windowWidth = 600
     windowHeight = 400
     
@@ -16,8 +16,8 @@ class Render:
         self.fruit_image = pygame.Surface((self.unit_size, self.unit_size))
         self.fruit_image.fill((0, 255, 0))
 
-    def set_window_size(self, w, h, unit_size=32):
-        self.unit_size = unit_size
+    def set_window_size(self, w, h):
+        #self.unit_size = unit_size
         self.windowWidth = w*self.unit_size
         self.windowHeight = h*self.unit_size
         self.display = pygame.display.set_mode((self.windowWidth,self.windowHeight), pygame.HWSURFACE)
