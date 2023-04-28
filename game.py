@@ -1,3 +1,8 @@
+"""
+:author: Daniel Zanón Lopez/DaniDaniel09
+"""
+
+# These lines of code are importing necessary modules and classes for the game to run.
 import time
 from random import randint
 import pygame
@@ -9,6 +14,8 @@ from render import Render
 # TODO:  1) render to client
 #        2) handle_event - handle msgs instead of pygame events
 
+# This is a class for a game that involves players moving around a field, eating fruits, colliding
+# with each other and the bounds, and keeping score.
 class Game:
     update_time = 0.5
     frame_time = 0.1

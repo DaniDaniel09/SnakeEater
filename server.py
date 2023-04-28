@@ -1,3 +1,13 @@
+"""
+:author: Daniel Zanón Lopez/DaniDaniel09
+"""
+
+
+# The code is importing necessary modules and classes for implementing a server for a multiplayer game
+# of Snake using sockets and the `select` module for I/O multiplexing. The `socket` module provides
+# low-level network communication functionality, `select` module provides I/O multiplexing, `time`
+# module provides time-related functions, `argparse` module provides a way to parse command-line
+# arguments, and `Game` is a class representing a game of Snake.
 import socket
 import select
 import time
@@ -6,6 +16,14 @@ import argparse
 from game import Game
 
 def arg_parse():
+    """
+    The function defines an argument parser with default values for width, height, and port, and returns
+    the parsed arguments.
+    :return: The function `arg_parse()` is returning the parsed arguments from the command line. It uses
+    the `argparse` module to define and parse the arguments. The default values for the arguments are
+    set to `20` for `width`, `10` for `height`, and `9999` for `port`. The parsed arguments are returned
+    as an object with attributes corresponding to the argument names.
+    """
     parser = argparse.ArgumentParser()
    
     parser.add_argument("--width", dest = 'width', help = "Field width", default = 20, type = int)
@@ -15,6 +33,19 @@ def arg_parse():
     return parser.parse_args()
 
 def disconnect_player(epoll, connections, snek_game, socket_to_id, fileno):
+    """
+    This function disconnects a player from a game and removes their connection and ID from relevant
+    data structures.
+    
+    :param epoll: An instance of the `select.epoll()` class used for I/O multiplexing
+    :param connections: A dictionary that maps file descriptors to socket objects representing
+    connections to clients
+    :param snek_game: It is likely an instance of a class representing a game of Snake, which may
+    include information about the game board, the players, and their scores
+    :param socket_to_id: A dictionary that maps socket file descriptors to player IDs
+    :param fileno: fileno is a file descriptor, which is a unique identifier for an open file or socket.
+    In this context, it is used to identify the specific socket connection that needs to be disconnected
+    """
     epoll.unregister(fileno)
     connections[fileno].close()
     del connections[fileno]
@@ -25,6 +56,13 @@ def disconnect_player(epoll, connections, snek_game, socket_to_id, fileno):
     del socket_to_id[fileno]
 
 
+# The code is implementing a server for a multiplayer game of Snake using sockets and the `select`
+# module for I/O multiplexing. The `with` statement is used to create a socket object `server_socket`
+# using the `socket.socket()` method with the `AF_INET` and `SOCK_STREAM` arguments. The `arg_parse()`
+# function is called to parse command line arguments for the width, height, and port of the game
+# field. The `server_socket` is then configured with the `setsockopt()` method to allow reuse of the
+# address and bound to the specified host and port using the `bind()` method. The `listen()` method is
+# called to start listening for incoming connections with a backlog of 5.
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
     args = arg_parse()
     
